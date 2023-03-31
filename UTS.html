@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>119140144</title>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+    crossorigin=""></script>
+
+    <style>
+        #map { height: 650px; }
+    </style>
+<main>
+    <div id="map"></div>
+</main>
+
+<body>
+    <script>
+    const map = L.map('map'); 
+    
+    map.setView([51.505, -0.09], 13); 
+        
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map); 
+        
+        
+        let marker, circle, zoomed;
+        navigator.geolocation.watchPosition(success, error);
+        
+        
+        function success(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy;
+        
+        
+        if (marker) {
+            map.removeLayer(marker);
+            map.removeLayer(circle);
+        }
+        
+        marker = L.marker([-5.381274,105.268403],).addTo(map);
+        circle = L.circle([-5.381274,105.268403], { radius: 200 }).addTo(map);
+        
+        
+        if (!zoomed) {
+            zoomed = map.fitBounds(circle.getBounds()); 
+        }
+        
+        map.setView([-5.381274,105.268403], 13);
+        
+        }
+        
+        function error(err) {
+            if (err.code === 1) {
+                alert("Izinkan akses lokasi");
+        } else {
+            alert("Tidak dapat memuat lokasi");
+        }
+    }
+        </script>
+    </body>
+</html>
